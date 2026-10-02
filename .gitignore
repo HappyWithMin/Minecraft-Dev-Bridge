@@ -1,0 +1,11 @@
+build/
+runtime/
+local.json
+*.log
+node_modules/
+.env
+.env.*
+!.env.example
+/config.json
+/server.properties
+**/bridge-token.txt

@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "local.mcbridge.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": ["ClientMixin", "WindowMixin", "MouseMixin", "ActionAccess"],
+  "injectors": { "defaultRequire": 1 }
+}

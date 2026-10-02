@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "minecraft_dev_bridge",
+  "version": "0.1.0",
+  "name": "Minecraft Dev Bridge",
+  "description": "Loopback automation and framebuffer screenshots for a dedicated test client.",
+  "environment": "client",
+  "entrypoints": { "client": ["local.mcbridge.Bridge"] },
+  "mixins": ["mcbridge.mixins.json"],
+  "depends": { "fabricloader": ">=0.19.5", "minecraft": "26.3", "java": ">=25" }
+}

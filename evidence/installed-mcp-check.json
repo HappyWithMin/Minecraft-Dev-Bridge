@@ -1,0 +1,688 @@
+{
+  "passed": true,
+  "checks": [
+    "MCP initialize and 21 tools",
+    "Connected, hidden, unfocused, mouse not captured",
+    "Missing token and browser-origin requests rejected",
+    "MCP returns an actual 960x600 PNG image",
+    "Installed MCP starts, polls and returns continuous frames with an offline viewer",
+    "Failed scenario stops its capture, releases input and restores rendering",
+    "Stop preempts an active scenario and prevents later movement",
+    "RCON lists the separate test identity"
+  ],
+  "state": {
+    "ok": true,
+    "version": "26.3",
+    "tick": 498,
+    "frame": 721,
+    "fps": 30,
+    "dedicated": true,
+    "focused": false,
+    "hidden": true,
+    "mouseGrabbed": false,
+    "connected": true,
+    "inputRemainingMs": 0,
+    "timestamp": "2026-10-02T10:30:34.281732700Z",
+    "screen": null,
+    "widgets": [],
+    "player": {
+      "name": "CodexProbe",
+      "x": 8.5,
+      "y": -60,
+      "z": 6.56739462838008,
+      "yaw": 25,
+      "pitch": -20,
+      "health": 20,
+      "onGround": true,
+      "usingItem": false,
+      "sprinting": false,
+      "sneaking": false,
+      "hotbar": 0,
+      "camera": "FIRST_PERSON"
+    },
+    "containerId": 0,
+    "slots": [
+      {
+        "slot": 0,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 1,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 2,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 3,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 4,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 5,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 6,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 7,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 8,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 9,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 10,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 11,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 12,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 13,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 14,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 15,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 16,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 17,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 18,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 19,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 20,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 21,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 22,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 23,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 24,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 25,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 26,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 27,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 28,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 29,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 30,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 31,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 32,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 33,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 34,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 35,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 36,
+        "item": "minecraft:bow",
+        "count": 1,
+        "name": "弓"
+      },
+      {
+        "slot": 37,
+        "item": "minecraft:arrow",
+        "count": 16,
+        "name": "箭"
+      },
+      {
+        "slot": 38,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 39,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 40,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 41,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 42,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 43,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 44,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      },
+      {
+        "slot": 45,
+        "item": "minecraft:air",
+        "count": 0,
+        "name": "空气"
+      }
+    ],
+    "resourcePacks": [
+      "vanilla",
+      "server/00000000/6f1d7c2e-3a54-4b8e-9c1f-2d7e5a9b0c41"
+    ],
+    "capture": null,
+    "render": {
+      "width": 960,
+      "height": 600,
+      "fpsLimit": 30
+    }
+  },
+  "screenshot": {
+    "sampleIndex": 0,
+    "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\bebad6eb-f7e6-4ae2-8ff6-54b44133200b\\frame-0000.png",
+    "file": "frame-0000.png",
+    "width": 960,
+    "height": 600,
+    "frame": 735,
+    "tick": 507,
+    "capturedAt": "2026-10-02T10:30:34.749727100Z",
+    "elapsedMs": 0,
+    "scheduledMs": 0,
+    "latenessMs": 0,
+    "player": {
+      "x": 8.5,
+      "y": -60,
+      "z": 6.56739462838008,
+      "yaw": 0,
+      "pitch": 0,
+      "usingItem": false,
+      "sneaking": false
+    },
+    "savedAt": "2026-10-02T10:30:34.816686800Z",
+    "ok": true,
+    "captureId": "bebad6eb-f7e6-4ae2-8ff6-54b44133200b",
+    "manifestPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\bebad6eb-f7e6-4ae2-8ff6-54b44133200b\\manifest.json",
+    "restored": true
+  },
+  "sequence": {
+    "ok": true,
+    "id": "85bc7d0b-812a-45cb-a266-b41ce4a7193f",
+    "state": "completed",
+    "terminal": true,
+    "directory": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\85bc7d0b-812a-45cb-a266-b41ce4a7193f",
+    "manifestPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\85bc7d0b-812a-45cb-a266-b41ce4a7193f\\manifest.json",
+    "createdAt": "2026-10-02T10:30:34.916496300Z",
+    "updatedAt": "2026-10-02T10:30:35.550953700Z",
+    "width": 1280,
+    "height": 720,
+    "requestedFps": 5,
+    "durationMs": 600,
+    "requestedFrames": 3,
+    "savedFrames": 3,
+    "inFlight": 0,
+    "missedRenderSlots": 0,
+    "backpressureDrops": 0,
+    "writeFailures": 0,
+    "unattemptedFrames": 0,
+    "observedFps": 4.993616909185834,
+    "reason": "duration reached",
+    "error": null,
+    "originalWidth": 960,
+    "originalHeight": 600,
+    "originalFps": 30,
+    "frames": [
+      {
+        "sampleIndex": 0,
+        "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\85bc7d0b-812a-45cb-a266-b41ce4a7193f\\frame-0000.png",
+        "file": "frame-0000.png",
+        "width": 1280,
+        "height": 720,
+        "frame": 743,
+        "tick": 512,
+        "capturedAt": "2026-10-02T10:30:35.016511400Z",
+        "elapsedMs": 0,
+        "scheduledMs": 0,
+        "latenessMs": 0,
+        "player": {
+          "x": 8.5,
+          "y": -60,
+          "z": 6.56739462838008,
+          "yaw": 0,
+          "pitch": 0,
+          "usingItem": false,
+          "sneaking": false
+        },
+        "savedAt": "2026-10-02T10:30:35.083016Z"
+      },
+      {
+        "sampleIndex": 1,
+        "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\85bc7d0b-812a-45cb-a266-b41ce4a7193f\\frame-0001.png",
+        "file": "frame-0001.png",
+        "width": 1280,
+        "height": 720,
+        "frame": 749,
+        "tick": 516,
+        "capturedAt": "2026-10-02T10:30:35.216508100Z",
+        "elapsedMs": 200.2005,
+        "scheduledMs": 200,
+        "latenessMs": 0.20050000000000523,
+        "player": {
+          "x": 8.5,
+          "y": -60,
+          "z": 6.56739462838008,
+          "yaw": 0,
+          "pitch": 0,
+          "usingItem": false,
+          "sneaking": false
+        },
+        "savedAt": "2026-10-02T10:30:35.283211500Z"
+      },
+      {
+        "sampleIndex": 2,
+        "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\85bc7d0b-812a-45cb-a266-b41ce4a7193f\\frame-0002.png",
+        "file": "frame-0002.png",
+        "width": 1280,
+        "height": 720,
+        "frame": 755,
+        "tick": 520,
+        "capturedAt": "2026-10-02T10:30:35.416750300Z",
+        "elapsedMs": 400.5113,
+        "scheduledMs": 400,
+        "latenessMs": 0.5113000000000056,
+        "player": {
+          "x": 8.5,
+          "y": -60,
+          "z": 6.56739462838008,
+          "yaw": 0,
+          "pitch": 0,
+          "usingItem": false,
+          "sneaking": false
+        },
+        "savedAt": "2026-10-02T10:30:35.484089Z"
+      }
+    ],
+    "viewerPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\85bc7d0b-812a-45cb-a266-b41ce4a7193f\\index.html"
+  },
+  "captureCleanup": {
+    "name": "capture-failure-cleans-up",
+    "startedAt": "2026-10-02T10:30:35.636Z",
+    "passed": false,
+    "steps": [
+      {
+        "step": {
+          "tool": "mc_capture_start",
+          "args": {
+            "width": 1280,
+            "height": 720,
+            "fps": 5,
+            "durationMs": 10000
+          }
+        },
+        "result": {
+          "ok": true,
+          "id": "6450c714-9b4b-472c-9b18-55b8eadbe31c",
+          "state": "preparing",
+          "terminal": false,
+          "directory": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c",
+          "manifestPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c\\manifest.json",
+          "createdAt": "2026-10-02T10:30:35.686239100Z",
+          "updatedAt": "2026-10-02T10:30:35.687242700Z",
+          "width": 1280,
+          "height": 720,
+          "requestedFps": 5,
+          "durationMs": 10000,
+          "requestedFrames": 50,
+          "savedFrames": 0,
+          "inFlight": 0,
+          "missedRenderSlots": 0,
+          "backpressureDrops": 0,
+          "writeFailures": 0,
+          "unattemptedFrames": 50,
+          "observedFps": 0,
+          "reason": "duration reached",
+          "error": null,
+          "originalWidth": 960,
+          "originalHeight": 600,
+          "originalFps": 30,
+          "frames": []
+        },
+        "elapsedMs": 50
+      },
+      {
+        "step": {
+          "tool": "mc_input",
+          "args": {
+            "keys": [
+              "sneak"
+            ],
+            "durationMs": 10000
+          }
+        },
+        "result": {
+          "ok": true,
+          "tick": 527
+        },
+        "elapsedMs": 31
+      },
+      {
+        "step": {
+          "waitMs": 500
+        },
+        "result": {
+          "waitedMs": 500
+        },
+        "elapsedMs": 512
+      }
+    ],
+    "error": "Assertion failed: hidden; actual=true",
+    "failedStep": 3,
+    "captures": [
+      {
+        "ok": true,
+        "id": "6450c714-9b4b-472c-9b18-55b8eadbe31c",
+        "state": "stopped",
+        "terminal": true,
+        "directory": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c",
+        "manifestPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c\\manifest.json",
+        "createdAt": "2026-10-02T10:30:35.686239100Z",
+        "updatedAt": "2026-10-02T10:30:36.522381400Z",
+        "width": 1280,
+        "height": 720,
+        "requestedFps": 5,
+        "durationMs": 10000,
+        "requestedFrames": 50,
+        "savedFrames": 4,
+        "inFlight": 0,
+        "missedRenderSlots": 0,
+        "backpressureDrops": 0,
+        "writeFailures": 0,
+        "unattemptedFrames": 46,
+        "observedFps": 4.984606703731095,
+        "reason": "requested",
+        "error": null,
+        "originalWidth": 960,
+        "originalHeight": 600,
+        "originalFps": 30,
+        "frames": [
+          {
+            "sampleIndex": 0,
+            "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c\\frame-0000.png",
+            "file": "frame-0000.png",
+            "width": 1280,
+            "height": 720,
+            "frame": 766,
+            "tick": 527,
+            "capturedAt": "2026-10-02T10:30:35.786327400Z",
+            "elapsedMs": 0,
+            "scheduledMs": 0,
+            "latenessMs": 0,
+            "player": {
+              "x": 8.5,
+              "y": -60,
+              "z": 6.56739462838008,
+              "yaw": 0,
+              "pitch": 0,
+              "usingItem": false,
+              "sneaking": true
+            },
+            "savedAt": "2026-10-02T10:30:35.853253800Z"
+          },
+          {
+            "sampleIndex": 1,
+            "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c\\frame-0001.png",
+            "file": "frame-0001.png",
+            "width": 1280,
+            "height": 720,
+            "frame": 772,
+            "tick": 531,
+            "capturedAt": "2026-10-02T10:30:35.986543400Z",
+            "elapsedMs": 200.3191,
+            "scheduledMs": 200,
+            "latenessMs": 0.3190999999999917,
+            "player": {
+              "x": 8.5,
+              "y": -60,
+              "z": 6.56739462838008,
+              "yaw": 0,
+              "pitch": 0,
+              "usingItem": false,
+              "sneaking": true
+            },
+            "savedAt": "2026-10-02T10:30:36.053978900Z"
+          },
+          {
+            "sampleIndex": 2,
+            "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c\\frame-0002.png",
+            "file": "frame-0002.png",
+            "width": 1280,
+            "height": 720,
+            "frame": 778,
+            "tick": 535,
+            "capturedAt": "2026-10-02T10:30:36.186736300Z",
+            "elapsedMs": 401.099,
+            "scheduledMs": 400,
+            "latenessMs": 1.0989999999999895,
+            "player": {
+              "x": 8.5,
+              "y": -60,
+              "z": 6.56739462838008,
+              "yaw": 0,
+              "pitch": 0,
+              "usingItem": false,
+              "sneaking": true
+            },
+            "savedAt": "2026-10-02T10:30:36.254780200Z"
+          },
+          {
+            "sampleIndex": 3,
+            "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c\\frame-0003.png",
+            "file": "frame-0003.png",
+            "width": 1280,
+            "height": 720,
+            "frame": 784,
+            "tick": 539,
+            "capturedAt": "2026-10-02T10:30:36.387813Z",
+            "elapsedMs": 601.8529,
+            "scheduledMs": 600,
+            "latenessMs": 1.852899999999977,
+            "player": {
+              "x": 8.5,
+              "y": -60,
+              "z": 6.56739462838008,
+              "yaw": 0,
+              "pitch": 0,
+              "usingItem": false,
+              "sneaking": false
+            },
+            "savedAt": "2026-10-02T10:30:36.455365400Z"
+          }
+        ],
+        "viewerPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\captures\\6450c714-9b4b-472c-9b18-55b8eadbe31c\\index.html"
+      }
+    ],
+    "finishedAt": "2026-10-02T10:30:36.527Z",
+    "reportPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\reports\\1790937036527-3f455816-06b8-4aff-b1fc-332cecf0424c.json"
+  },
+  "stoppedReport": {
+    "name": "mcp-stop-cancels-active-scenario",
+    "startedAt": "2026-10-02T10:30:36.592Z",
+    "passed": false,
+    "steps": [
+      {
+        "step": {
+          "tool": "mc_input",
+          "args": {
+            "keys": [
+              "sneak"
+            ],
+            "durationMs": 10000
+          }
+        },
+        "result": {
+          "ok": true,
+          "tick": 545
+        },
+        "elapsedMs": 31
+      }
+    ],
+    "error": "Scenario cancelled by stop/shutdown",
+    "failedStep": 1,
+    "captures": [],
+    "finishedAt": "2026-10-02T10:30:36.990Z",
+    "reportPath": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\reports\\1790937036990-10da7abe-5302-49d2-b2c6-c6c61e0ad1a2.json"
+  },
+  "verifiedAt": "2026-10-02T10:30:37.028Z"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "failure-clears-input",
+  "startedAt": "2026-10-02T10:15:36.078Z",
+  "passed": false,
+  "steps": [
+    {
+      "step": {
+        "tool": "mc_input",
+        "args": {
+          "keys": [
+            "sneak"
+          ],
+          "durationMs": 10000
+        }
+      },
+      "result": {
+        "ok": true,
+        "tick": 269
+      },
+      "elapsedMs": 28
+    }
+  ],
+  "error": "Assertion failed: connected; actual=true",
+  "failedStep": 1,
+  "finishedAt": "2026-10-02T10:15:36.203Z"
+}

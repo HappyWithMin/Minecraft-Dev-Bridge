@@ -1,0 +1,120 @@
+{
+  "name": "hidden-movement",
+  "startedAt": "2026-10-02T10:12:48.569Z",
+  "passed": true,
+  "steps": [
+    {
+      "step": {
+        "assert": {
+          "path": "hidden",
+          "equals": true
+        }
+      },
+      "result": {
+        "path": "hidden",
+        "actual": true,
+        "passed": true
+      },
+      "elapsedMs": 62
+    },
+    {
+      "step": {
+        "assert": {
+          "path": "focused",
+          "equals": false
+        }
+      },
+      "result": {
+        "path": "focused",
+        "actual": false,
+        "passed": true
+      },
+      "elapsedMs": 32
+    },
+    {
+      "step": {
+        "assert": {
+          "path": "mouseGrabbed",
+          "equals": false
+        }
+      },
+      "result": {
+        "path": "mouseGrabbed",
+        "actual": false,
+        "passed": true
+      },
+      "elapsedMs": 67
+    },
+    {
+      "step": {
+        "tool": "mc_input",
+        "args": {
+          "keys": [
+            "forward",
+            "sprint",
+            "jump"
+          ],
+          "durationMs": 1000
+        }
+      },
+      "result": {
+        "ok": true,
+        "tick": 613
+      },
+      "elapsedMs": 33
+    },
+    {
+      "step": {
+        "waitMs": 1300
+      },
+      "result": {
+        "waitedMs": 1300
+      },
+      "elapsedMs": 1313
+    },
+    {
+      "step": {
+        "assert": {
+          "path": "player.z",
+          "min": 0.5
+        }
+      },
+      "result": {
+        "path": "player.z",
+        "actual": 6.504295825307082,
+        "passed": true
+      },
+      "elapsedMs": 58
+    },
+    {
+      "step": {
+        "assert": {
+          "path": "inputRemainingMs",
+          "equals": 0
+        }
+      },
+      "result": {
+        "path": "inputRemainingMs",
+        "actual": 0,
+        "passed": true
+      },
+      "elapsedMs": 33
+    },
+    {
+      "step": {
+        "tool": "mc_screenshot"
+      },
+      "result": {
+        "ok": true,
+        "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\bridge-1790935970266-190e5ed9-e14f-449d-b749-0e69d64a4b44.png",
+        "width": 960,
+        "height": 600,
+        "frame": 936,
+        "tick": 642,
+        "capturedAt": "2026-10-02T10:12:50.266192100Z"
+      },
+      "elapsedMs": 177
+    }
+  ],
+  "finishedAt": "2026-10-02T10:12:50.348Z"
+}

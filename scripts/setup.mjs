@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import { configPath, libraries } from './paths.mjs';
+import { properties } from './client.mjs';
+const values=process.argv.slice(2);
+if(values.length!==4)throw Error('Usage: node scripts/setup.mjs <minecraftRoot> <resolved Fabric 26.3 version> <serverDir> <javaHome>');
+if(fs.existsSync(configPath))throw Error(`Configuration already exists: ${configPath}. Edit it deliberately instead of overwriting.`);
+const [minecraftRoot,version,serverDir,javaHome]=values;
+const c={minecraftRoot:path.resolve(minecraftRoot),version,serverDir:path.resolve(serverDir),javaHome:path.resolve(javaHome),runtimeDir:path.join(os.homedir(),'.minecraft-dev-bridge','runtime'),clientPort:25580,serverHost:'127.0.0.1',serverPort:25577,username:'CodexProbe'};
+libraries(c);
+if(!fs.existsSync(path.join(c.serverDir,'server.properties')))throw Error('Missing server.properties');
+c.serverPort=Number(properties(path.join(c.serverDir,'server.properties'))['server-port']);
+if(!Number.isInteger(c.serverPort)||c.serverPort<1||c.serverPort>65535)throw Error('Invalid server port');
+fs.mkdirSync(path.dirname(configPath),{recursive:true});
+fs.writeFileSync(configPath,JSON.stringify(c,null,2));
+console.log(`Configuration saved: ${configPath}`);

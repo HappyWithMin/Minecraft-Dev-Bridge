@@ -1,0 +1,85 @@
+{
+  "name": "bow-hold-release",
+  "startedAt": "2026-10-02T10:14:34.370Z",
+  "passed": true,
+  "steps": [
+    {
+      "step": {
+        "tool": "mc_input",
+        "args": {
+          "keys": [
+            "use"
+          ],
+          "durationMs": 1600
+        }
+      },
+      "result": {
+        "ok": true,
+        "tick": 2726
+      },
+      "elapsedMs": 45
+    },
+    {
+      "step": {
+        "waitMs": 400
+      },
+      "result": {
+        "waitedMs": 400
+      },
+      "elapsedMs": 415
+    },
+    {
+      "step": {
+        "assert": {
+          "path": "player.usingItem",
+          "equals": true
+        }
+      },
+      "result": {
+        "path": "player.usingItem",
+        "actual": true,
+        "passed": true
+      },
+      "elapsedMs": 50
+    },
+    {
+      "step": {
+        "tool": "mc_screenshot"
+      },
+      "result": {
+        "ok": true,
+        "path": "C:\\Users\\xm\\.minecraft-dev-bridge\\runtime\\client\\screenshots\\bridge-1790936074947-7c81db56-2037-4d44-bcea-8f574538dd47.png",
+        "width": 960,
+        "height": 600,
+        "frame": 4064,
+        "tick": 2736,
+        "capturedAt": "2026-10-02T10:14:34.947243900Z"
+      },
+      "elapsedMs": 145
+    },
+    {
+      "step": {
+        "waitMs": 1600
+      },
+      "result": {
+        "waitedMs": 1600
+      },
+      "elapsedMs": 1613
+    },
+    {
+      "step": {
+        "assert": {
+          "path": "player.usingItem",
+          "equals": false
+        }
+      },
+      "result": {
+        "path": "player.usingItem",
+        "actual": false,
+        "passed": true
+      },
+      "elapsedMs": 28
+    }
+  ],
+  "finishedAt": "2026-10-02T10:14:36.733Z"
+}
