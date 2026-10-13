@@ -1,6 +1,7 @@
 {
   "name": "minecraft-dev-bridge",
   "version": "0.2.0",
+  "license": "MIT",
   "displayName": "Minecraft Dev Bridge",
   "description": "后台验证 Minecraft 26.3 插件：独立隐藏客户端、服务端命令、游戏动作、菜单、真实截图与验证报告。",
   "author": {

@@ -147,3 +147,7 @@ node --test tests/*.test.mjs
 - [Claude Code 插件说明](https://code.claude.com/docs/en/plugins/manifest-reference)
 
 实际客户端 API 以 26.3 jar 的 `javap` 结果和真实运行验证为准。
+
+## 许可证
+
+[MIT](LICENSE)
