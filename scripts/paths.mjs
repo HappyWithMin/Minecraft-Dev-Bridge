@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const configPath = process.env.MCBRIDGE_CONFIG || path.join(os.homedir(), '.minecraft-dev-bridge', 'config.json');
 export function config() {
-  if (!fs.existsSync(configPath)) throw Error(`Run setup first; missing ${configPath}`);
+  if (!fs.existsSync(configPath)) throw Error(`Run setup first; missing ${configPath}. Setup: node "${path.join(root, 'scripts', 'setup.mjs')}" <minecraftRoot> <resolved Fabric 26.3 version> <serverDir> <javaHome>`);
   return JSON.parse(fs.readFileSync(configPath, 'utf8'));
 }
 export function libraries(c) {

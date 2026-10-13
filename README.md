@@ -1,6 +1,6 @@
 # Minecraft Dev Bridge
 
-给 Codex 使用的 Minecraft 插件验证工具。独立测试客户端以**隐藏窗口**运行；动作由游戏内部执行，截图直接读取游戏帧缓冲区。你可以继续操作电脑或另一个游戏客户端。
+给 Codex 和 Claude Code 使用的 Minecraft 插件验证工具。独立测试客户端以**隐藏窗口**运行；动作由游戏内部执行，截图直接读取游戏帧缓冲区。你可以继续操作电脑或另一个游戏客户端。
 
 源码仓库：[HappyWithMin/Minecraft-Dev-Bridge](https://github.com/HappyWithMin/Minecraft-Dev-Bridge)。仓库包含桥接模组源码、已构建的桥接 JAR、MCP 工具、技能、测试和验证样例；不包含 Minecraft 游戏依赖或本机运行配置。
 
@@ -14,21 +14,15 @@
 - 服务端插件 JAR 暂存到 `plugins/update`，SHA-256 与旧暂存文件备份。
 - 21 个 MCP 工具、一个 `minecraft-validation` 技能，无 npm 第三方依赖。
 
-## 本机配置
-
-配置保存在 `%USERPROFILE%\.minecraft-dev-bridge\config.json`，不打包进入插件。已连接现有本地测试服 `127.0.0.1:25577`；读取该服现有 RCON 配置。测试角色为 `CodexProbe`，游戏目录是 `%USERPROFILE%\.minecraft-dev-bridge\runtime\client`。
-
-使用安装好的 Fabric 26.3 启动配置获取游戏和依赖，但**不复制该配置中的其他模组**。桥接 jar 只进入独立测试目录。原来的游戏目录和 1.12.2 整合包不受影响。
-
 ## 使用
 
-安装后在新的 Codex 聊天中说：
+按下方 [安装](#安装) 完成安装和首次配置后，在新的 Codex 或 Claude Code 会话中说：
 
 > 用 minecraft-dev-bridge 在后台验证 PlayerModel：进入模型菜单，测试走跑跳、第三人称和持物，截图并报告。
 
-MCP 名称可能带插件前缀。最常用的是 `mc_launch`、`mc_status`、`mc_server_command`、`mc_input`、`mc_screenshot`、`mc_run_scenario`、`mc_shutdown`。截图也能通过 `view_image` 打开返回的本地路径。
+MCP 名称可能带插件前缀。最常用的是 `mc_launch`、`mc_status`、`mc_server_command`、`mc_input`、`mc_screenshot`、`mc_run_scenario`、`mc_shutdown`。截图也能通过 `view_image`（Codex）或 Read（Claude Code）打开返回的本地路径。Claude Code 中工具全名形如 `mcp__plugin_minecraft-dev-bridge_minecraft_dev_bridge__mc_status`。
 
-当前聊天或终端可直接运行：
+在仓库或插件根目录的终端中也可直接运行同一实现的 CLI：
 
 ```powershell
 node scripts/cli.mjs mc_launch
@@ -80,23 +74,58 @@ node scripts/cli.mjs mc_shutdown
 
 `mc_run_scenario` 可包含 `mc_capture_start`，结束或失败时会停止该场景启动的采集、恢复渲染设置，并把记录加入 `captures`。独立启动的采集到时自动结束；`mc_stop` 只释放输入/取消场景，提前结束独立采集请调用 `mc_capture_stop`。
 
-## 构建与安装
+## 安装
 
-需要 Windows、Node.js 22+、JDK 25，以及已安装且包含完整依赖的 Fabric 26.3 启动配置。源码不包含 Minecraft 游戏或账号凭证。
+同一个仓库同时是 **Codex 插件**和 **Claude Code 插件**（各自也是一个插件市场），两边加载同一套 MCP 工具和 `minecraft-validation` 技能。
 
-新机器先运行（参数换成本机路径）：
+### 前置要求
+
+- Windows、Node.js 22+、JDK 25、可用的显卡和图形会话。
+- 已安装且依赖完整的 Fabric 26.3 启动配置（启动器 `versions/<名称>/<名称>.json` 必须是已解析的完整配置，不支持 `inheritsFrom`）。
+- 本机测试服：`server.properties` 中 `online-mode=false`；需要 `mc_server_command` 时还要开启 `enable-rcon` 并设置 `rcon.password`。
+
+仓库自带已构建的 `dist/minecraft-dev-bridge-26.3.jar`，普通使用无需构建。
+
+### Claude Code
+
+```powershell
+claude plugin marketplace add HappyWithMin/Minecraft-Dev-Bridge
+claude plugin install minecraft-dev-bridge@minecraft-dev-bridge
+```
+
+也可以在会话中执行 `/plugin install minecraft-dev-bridge --marketplace HappyWithMin/Minecraft-Dev-Bridge`。安装后开新会话；工具全名形如 `mcp__plugin_minecraft-dev-bridge_minecraft_dev_bridge__mc_status`，技能为 `minecraft-dev-bridge:minecraft-validation`。更新：`claude plugin marketplace update minecraft-dev-bridge` 后 `claude plugin update minecraft-dev-bridge@minecraft-dev-bridge`。
+
+### Codex
+
+```powershell
+codex plugin marketplace add HappyWithMin/Minecraft-Dev-Bridge
+codex plugin add minecraft-dev-bridge@minecraft-dev-bridge
+```
+
+安装后开新聊天。市场定义在 `.agents/plugins/marketplace.json`，MCP 定义在 `.mcp.json`（以插件根目录为工作目录运行 `node ./scripts/mcp.mjs`）。更新：`codex plugin marketplace upgrade` 后重新安装。
+
+### 首次配置
+
+配置保存在 `%USERPROFILE%\.minecraft-dev-bridge\config.json`（`MCBRIDGE_CONFIG` 可指定其他文件），与插件安装位置无关，两个宿主共用。未配置时，任一工具都会返回 `Run setup first`，并给出插件内 `setup.mjs` 的完整命令；技能会引导 agent 向你询问路径后执行。也可以在任意一份仓库副本中手动运行（参数换成本机路径）：
 
 ```powershell
 node scripts/setup.mjs 'D:\Minecraft\.minecraft' 'Fabric 26.3' 'D:\test-server' 'C:\Program Files\Java\jdk-25'
+```
+
+setup 不覆盖现有配置。默认测试角色为 `CodexProbe`，独立游戏目录为 `%USERPROFILE%\.minecraft-dev-bridge\runtime\client`；需要时直接编辑配置文件。启动时只借用该 Fabric 配置的游戏和依赖，**不加载其中的其他模组**，原游戏目录不受影响。
+
+## 从源码构建与本地开发
+
+```powershell
 node scripts/build.mjs
 node --test tests/*.test.mjs
 ```
 
-setup 不覆盖现有配置。构建直接使用该启动配置里的游戏/Fabric/Mixin 编译依赖，输出 `dist/minecraft-dev-bridge-26.3.jar`。Minecraft 26.3 已去除混淆；本构建无需映射和 Gradle。
+构建直接使用 Fabric 26.3 启动配置里的游戏/Fabric/Mixin 编译依赖，输出 `dist/minecraft-dev-bridge-26.3.jar`。Minecraft 26.3 已去除混淆；本构建无需映射和 Gradle。
 
-`scripts/install-local.mjs` 把插件复制到 `%USERPROFILE%\plugins\minecraft-dev-bridge`，生成本机 MCP 启动配置。个人市场条目由 Codex `plugin-creator` 脚手架创建。然后使用 `codex plugin add minecraft-dev-bridge@personal` 安装。更新时使用 plugin-creator 的 cachebuster 工具后再安装，新聊天会加载更新后的技能和工具。
+本地克隆可直接作为市场安装：`claude plugin marketplace add <克隆目录>` 或 `codex plugin marketplace add <克隆目录>`，安装命令同上。Claude Code 对本地目录市场直接读取该目录（`claude plugin list` 显示 `Read from`），Codex 会复制到自己的缓存；修改后把 `.claude-plugin/plugin.json` 与 `.codex-plugin/plugin.json` 的 `version` 一起加一，再执行各自的更新命令。从 GitHub 安装时两边都使用缓存副本。Claude Code 也可用 `claude --plugin-dir <克隆目录>` 临时试用。在仓库中打开 Claude Code 时，`.claude/settings.json` 会屏蔽根目录 `.mcp.json` 的项目级加载，避免与已安装插件重复。
 
-从 GitHub 克隆后，先按上面的步骤完成本机 setup，再运行 `node scripts/install-local.mjs`。仓库内的 `.mcp.json` 根据当前用户主目录定位个人安装位置；安装脚本生成的配置使用本机 Node 可执行文件和脚本绝对路径。`evidence/` 是已完成测试的历史样例，其中 JSON 路径属于执行测试的机器，不是其他机器的启动配置。
+`scripts/install-local.mjs` 是旧的 Codex 个人安装方式：复制到 `%USERPROFILE%\plugins\minecraft-dev-bridge` 并生成绝对路径 MCP 配置，配合 `~/.agents/plugins/marketplace.json` 个人市场使用；`scripts/verify-live.mjs` 依赖该安装位置。`evidence/` 是已完成测试的历史样例，其中 JSON 路径属于执行测试的机器。
 
 ## 边界与恢复
 
@@ -108,12 +137,13 @@ setup 不覆盖现有配置。构建直接使用该启动配置里的游戏/Fabr
 - 首次连接看到资源包确认窗口时，先看 `mc_status.widgets`，再以当前 screen 类名和索引调用 `mc_ui_click`。
 - JAR 暂存不代表已加载；不做危险的插件热卸载或通用 `/reload`。现有服务器生命周期由项目原有启动流程管理。
 - 启动失败查看 `mc_logs` 的 `launcher`；已有进程尚在启动/退出时会拒绝重复启动。普通退出使用 `mc_shutdown`，无需操作桌面。
-- 首次 MCP 工具加载需要新聊天；当前聊天可以使用同一实现的 CLI。
+- 首次 MCP 工具加载需要新会话；当前会话可以使用同一实现的 CLI（`node <插件根目录>/scripts/cli.mjs`）。
 
 ## 技术依据
 
 - [Fabric 26.3 版本说明](https://www.fabricmc.net/2026/09/15/263.html)
 - [MCP stdio 传输规范](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports)
 - [Codex 插件打包说明](https://developers.openai.com/plugins/build/plugins)
+- [Claude Code 插件说明](https://code.claude.com/docs/en/plugins/manifest-reference)
 
-实际客户端 API 以本机 26.3 jar 的 `javap` 结果和真实运行验证为准。
+实际客户端 API 以 26.3 jar 的 `javap` 结果和真实运行验证为准。

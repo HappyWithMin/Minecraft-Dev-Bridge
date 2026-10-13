@@ -1,0 +1,14 @@
+{
+  "name": "minecraft-dev-bridge",
+  "description": "Minecraft Dev Bridge 本地插件市场：隐藏测试客户端 + RCON 的 Minecraft 插件验证工具。",
+  "owner": {
+    "name": "HappyWithMin"
+  },
+  "plugins": [
+    {
+      "name": "minecraft-dev-bridge",
+      "source": "./",
+      "description": "后台验证 Minecraft 26.3 插件的 MCP 工具与 minecraft-validation 技能。"
+    }
+  ]
+}

@@ -1,24 +1,34 @@
 {
   "name": "minecraft-dev-bridge",
-  "version": "0.1.0+codex.20261002103033",
-  "description": "\u540e\u53f0\u9a8c\u8bc1 Minecraft 26.3 \u63d2\u4ef6\uff1a\u72ec\u7acb\u9690\u85cf\u5ba2\u6237\u7aef\u3001\u670d\u52a1\u7aef\u547d\u4ee4\u3001\u6e38\u620f\u52a8\u4f5c\u3001\u83dc\u5355\u3001\u771f\u5b9e\u622a\u56fe\u4e0e\u9a8c\u8bc1\u62a5\u544a\u3002",
+  "version": "0.2.0",
+  "description": "后台验证 Minecraft 26.3 插件：独立隐藏客户端、服务端命令、游戏动作、菜单、真实截图与验证报告。",
   "author": {
-    "name": "Local developer"
+    "name": "HappyWithMin",
+    "url": "https://github.com/HappyWithMin"
   },
+  "homepage": "https://github.com/HappyWithMin/Minecraft-Dev-Bridge",
+  "repository": "https://github.com/HappyWithMin/Minecraft-Dev-Bridge",
+  "keywords": [
+    "minecraft",
+    "fabric",
+    "mcp",
+    "testing"
+  ],
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Minecraft Dev Bridge",
-    "shortDescription": "\u540e\u53f0\u63a7\u5236\u6d4b\u8bd5\u670d\u4e0e\u72ec\u7acb\u5ba2\u6237\u7aef\uff0c\u622a\u56fe\u9a8c\u8bc1\uff0c\u4e0d\u62a2\u9f20\u6807\u952e\u76d8\u3002",
-    "longDescription": "\u4f7f\u7528\u672c\u5730 RCON \u4e0e Fabric 26.3 \u63a7\u5236\u6865\uff0c\u5728\u72ec\u7acb\u9690\u85cf\u5ba2\u6237\u7aef\u6267\u884c\u79fb\u52a8\u3001\u89c6\u89d2\u3001\u7269\u54c1\u548c\u83dc\u5355\u64cd\u4f5c\uff0c\u83b7\u53d6\u771f\u5b9e\u6e38\u620f\u622a\u56fe\u5e76\u4fdd\u5b58\u9a8c\u8bc1\u8bb0\u5f55\u3002",
-    "developerName": "Local developer",
+    "shortDescription": "后台控制测试服与独立客户端，截图验证，不抢鼠标键盘。",
+    "longDescription": "使用本地 RCON 与 Fabric 26.3 控制桥，在独立隐藏客户端执行移动、视角、物品和菜单操作，获取真实游戏截图并保存验证记录。",
+    "developerName": "HappyWithMin",
     "category": "Productivity",
     "capabilities": [
       "Read",
       "Write"
     ],
     "defaultPrompt": [
-      "\u5728\u540e\u53f0\u9a8c\u8bc1\u6211\u7684 Minecraft \u63d2\u4ef6\uff0c\u68c0\u67e5\u83dc\u5355\u548c\u52a8\u4f5c\u5e76\u622a\u56fe\u3002"
-    ]
-  },
-  "mcpServers": "./.mcp.json"
+      "在后台验证我的 Minecraft 插件，检查菜单和动作并截图。"
+    ],
+    "websiteURL": "https://github.com/HappyWithMin/Minecraft-Dev-Bridge"
+  }
 }

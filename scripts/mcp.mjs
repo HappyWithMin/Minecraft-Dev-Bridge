@@ -13,7 +13,7 @@ input.on('line',line=>{
   if(req.jsonrpc!=='2.0'||typeof req.method!=='string'){send({id:req.id??null,error:{code:-32600,message:'Invalid request'}});return;}
   if(req.method==='initialize') {
     const versions=['2025-06-18','2025-03-26','2024-11-05'];
-    send({id:req.id,result:{protocolVersion:versions.includes(req.params?.protocolVersion)?req.params.protocolVersion:'2025-06-18',capabilities:{tools:{listChanged:false}},serverInfo:{name:'minecraft-dev-bridge',version:'0.1.0'}}});return;
+    send({id:req.id,result:{protocolVersion:versions.includes(req.params?.protocolVersion)?req.params.protocolVersion:'2025-06-18',capabilities:{tools:{listChanged:false}},serverInfo:{name:'minecraft-dev-bridge',version:'0.2.0'}}});return;
   }
   if(req.method==='ping'){send({id:req.id,result:{}});return;}
   if(req.method==='tools/list'){send({id:req.id,result:{tools:definitions}});return;}

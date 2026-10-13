@@ -2,7 +2,8 @@
   "mcpServers": {
     "minecraft_dev_bridge": {
       "command": "node",
-      "args": ["-e", "import(require('node:url').pathToFileURL(require('node:path').join(require('node:os').homedir(), 'plugins', 'minecraft-dev-bridge', 'scripts', 'mcp.mjs')).href)"],
+      "args": ["./scripts/mcp.mjs"],
+      "cwd": ".",
       "startup_timeout_sec": 15,
       "tool_timeout_sec": 180
     }
