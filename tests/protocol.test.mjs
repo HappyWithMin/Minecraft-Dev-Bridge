@@ -46,6 +46,23 @@ test('bounded inputs and scenarios reject malformed requests before any mutation
   await assert.rejects(execute('mc_run_scenario',{name:'invalid',steps:[{waitMs:1,tool:'mc_stop'}]},{}),/exactly one/);
 });
 
+test('smooth turns are bounded and usable inside scenarios',async()=>{
+  const s=definitions.find(t=>t.name==='mc_turn').inputSchema;
+  validate({yaw:90,pitch:-20,durationMs:800},s);
+  validate({yaw:-720,pitch:180,durationMs:10000,relative:true,easing:'linear'},s);
+  for(const v of [{yaw:90,pitch:0},{yaw:90,pitch:0,durationMs:0},{yaw:90,pitch:0,durationMs:10001},{yaw:90,pitch:181,durationMs:500},{yaw:Infinity,pitch:0,durationMs:500},{yaw:90,pitch:0,durationMs:500,relative:'true'},{yaw:90,pitch:0,durationMs:500,easing:'bounce'}])assert.throws(()=>validate(v,s));
+  // Passes preflight, then fails only because this configuration has no client to reach.
+  const temp=fs.mkdtempSync(path.join(os.tmpdir(),'mcbridge-turn-test-'));
+  try {
+    const report=await execute('mc_run_scenario',{name:'turn-preflight',steps:[{tool:'mc_turn',args:{yaw:90,pitch:0,durationMs:500}}]},{runtimeDir:temp});
+    assert.equal(report.passed,false);assert.match(report.error,/ENOENT/);
+    await assert.rejects(execute('mc_run_scenario',{name:'invalid',steps:[{tool:'mc_turn',args:{yaw:90,pitch:0}}]},{runtimeDir:temp}),/durationMs: required/);
+  }finally {
+    assert.equal(path.dirname(temp),os.tmpdir());assert.ok(path.basename(temp).startsWith('mcbridge-turn-test-'));
+    fs.rmSync(temp,{recursive:true,force:true});
+  }
+});
+
 test('assertions reject missing fields and distinguish numeric and boolean values',()=>{
   assert.equal(checkAssertion({player:{x:4}}, {path:'player.x',min:3,max:5}).passed,true);
   assert.throws(()=>checkAssertion({connected:false},{path:'connected',equals:true}),/failed/);

@@ -29,7 +29,7 @@ const checks=[], evidence=path.join(root,'evidence');fs.mkdirSync(evidence,{recu
 try {
   const init=await call('initialize',{protocolVersion:'2025-06-18',capabilities:{},clientInfo:{name:'live-verification',version:'1.0'}});
   assert.equal(init.result.protocolVersion,'2025-06-18');
-  const list=await call('tools/list');assert.equal(list.result.tools.length,21);checks.push('MCP initialize and 21 tools');
+  const list=await call('tools/list');assert.equal(list.result.tools.length,22);checks.push('MCP initialize and 22 tools');
   const state=data(await tool('mc_status'));
   assert.equal(state.connected,true);assert.equal(state.hidden,true);assert.equal(state.focused,false);assert.equal(state.mouseGrabbed,false);
   checks.push('Connected, hidden, unfocused, mouse not captured');

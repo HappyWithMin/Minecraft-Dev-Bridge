@@ -8,11 +8,12 @@
 
 - 本地 RCON 服务端命令和服务端日志。
 - 独立客户端启动/退出、玩家命令、走跑跳潜行、视角、第一/第三人称、快捷栏、攻击/使用物品、背包与插件菜单操作。
+- 平滑转动视角：逐帧把鼠标位移送进原版的灵敏度换算和转向代码，效果等同真实玩家移动鼠标。
 - 默认 1080p、最高 4K 的实际渲染截图，MCP 直接返回图像；完成后自动恢复原分辨率。
 - 后台连续帧采集，保存无损 PNG、逐帧时间/游戏状态、漏采统计，以及可播放和逐帧检查的离线页面。
 - 场景串行执行、状态断言、失败清理和 JSON 验证记录。
 - 服务端插件 JAR 暂存到 `plugins/update`，SHA-256 与旧暂存文件备份。
-- 21 个 MCP 工具、一个 `minecraft-validation` 技能，无 npm 第三方依赖。
+- 22 个 MCP 工具、一个 `minecraft-validation` 技能，无 npm 第三方依赖。
 
 ## 使用
 
@@ -20,7 +21,7 @@
 
 > 用 minecraft-dev-bridge 在后台验证 PlayerModel：进入模型菜单，测试走跑跳、第三人称和持物，截图并报告。
 
-MCP 名称可能带插件前缀。最常用的是 `mc_launch`、`mc_status`、`mc_server_command`、`mc_input`、`mc_screenshot`、`mc_run_scenario`、`mc_shutdown`。截图也能通过 `view_image`（Codex）或 Read（Claude Code）打开返回的本地路径。Claude Code 中工具全名形如 `mcp__plugin_minecraft-dev-bridge_minecraft_dev_bridge__mc_status`。
+MCP 名称可能带插件前缀。最常用的是 `mc_launch`、`mc_status`、`mc_server_command`、`mc_input`、`mc_turn`、`mc_screenshot`、`mc_run_scenario`、`mc_shutdown`。截图也能通过 `view_image`（Codex）或 Read（Claude Code）打开返回的本地路径。Claude Code 中工具全名形如 `mcp__plugin_minecraft-dev-bridge_minecraft_dev_bridge__mc_status`。
 
 在仓库或插件根目录的终端中也可直接运行同一实现的 CLI：
 
@@ -52,6 +53,23 @@ node scripts/cli.mjs mc_shutdown
 ```
 
 传给 `mc_run_scenario` 或保存为 JSON 后通过 CLI 调用。报告位于 runtime/reports，截图位于 runtime/client/screenshots。场景中 `waitMs` 累计至多 45 秒，长测试分段进行。
+
+## 平滑转动视角
+
+`mc_look` 把视角瞬间设到指定角度；`mc_turn` 在给定时长内平滑转过去，调用后立即返回。
+
+| 参数 | 示例 | 说明 |
+| --- | --- | --- |
+| `yaw`、`pitch` | `90`、`-20` | 目标角度；水平方向自动走较短的一侧 |
+| `durationMs` | `800` | 转动时长，1–10000 ms |
+| `relative` | `true` | 可选。为 true 时 `yaw`/`pitch` 是相对当前视角的偏移量，`yaw` 可超过 360 度连续转圈 |
+| `easing` | `"linear"` | 可选。默认 `smooth`（先加速后减速）；`linear` 为匀速 |
+
+例如 `{"yaw":90,"pitch":-20,"durationMs":800}` 用 0.8 秒转向东偏上，`{"yaw":360,"pitch":0,"durationMs":3000,"relative":true,"easing":"linear"}` 用 3 秒匀速向右转一圈。返回本次实际要转的 `deltaYaw`、`deltaPitch`。
+
+隐藏窗口收不到真实鼠标事件，所以每帧由桥接模组算出鼠标位移，写入原版 `MouseHandler` 并调用它自己的转向代码。因此灵敏度曲线、望远镜减速、反转鼠标、俯仰 ±90 度限位、骑乘时带动坐骑的行为都与原版一致，画面按帧连续变化而不是按 tick 跳变。位移量按当前灵敏度反算，请求多少度就转多少度，终点误差在浮点精度内（约 0.001 度以下）。
+
+`mc_status.turnRemainingMs` 为 0 表示已转完。转动在以下情况提前结束：再次调用 `mc_turn`（改为新的转动）、`mc_look`、`mc_stop`、打开任何界面、断开连接。转动期间可以同时使用 `mc_input` 移动，也可以放进 `mc_run_scenario` 和连续帧采集里。
 
 ## 高分辨率截图与连续帧
 
@@ -133,7 +151,7 @@ node --test tests/*.test.mjs
 - 启动器使用独立离线测试身份，只连接本机已配置的 offline-mode 测试服；不会修改服务器认证设置。正版服需要另外接入合法账号启动流程。
 - 隐藏客户端仍需显卡和图形会话，不是无 GPU 的纯服务端机器人。默认 960×600、30 FPS、2 GiB 最大堆内存，仍会消耗 GPU/RAM。
 - 控制端仅监听 127.0.0.1，使用每次启动生成的随机令牌。普通安装该 mod 但未启用 dedicated JVM 参数时不会启用接口或隐藏窗口。
-- 一次输入最多 10 秒；游戏线程恢复执行时也会检查真实时间并释放过期输入。失去连接、菜单打开和场景结束都会释放。
+- 一次输入或转动最多 10 秒；游戏线程恢复执行时也会检查真实时间并释放过期输入。失去连接、菜单打开和场景结束都会释放输入并结束转动。
 - 首次连接看到资源包确认窗口时，先看 `mc_status.widgets`，再以当前 screen 类名和索引调用 `mc_ui_click`。
 - JAR 暂存不代表已加载；不做危险的插件热卸载或通用 `/reload`。现有服务器生命周期由项目原有启动流程管理。
 - 启动失败查看 `mc_logs` 的 `launcher`；已有进程尚在启动/退出时会拒绝重复启动。普通退出使用 `mc_shutdown`，无需操作桌面。

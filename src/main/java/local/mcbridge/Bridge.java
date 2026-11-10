@@ -13,6 +13,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.player.ClientInput;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.phys.Vec2;
@@ -36,6 +37,9 @@ public class Bridge implements ClientModInitializer {
     private static Path gameDir;
     private static long tick, frame, inputUntil;
     private static boolean forward, back, left, right, jump, sneak, sprint, use, attack;
+    private static boolean turning, turnLinear;
+    private static long turnStart, turnNanos;
+    private static double turnYaw, turnPitch, turnedYaw, turnedPitch;
     private static final RemoteInput INPUT = new RemoteInput();
     private record Job(JsonObject request, CompletableFuture<JsonObject> result, long deadline) {}
 
@@ -125,6 +129,21 @@ public class Bridge implements ClientModInitializer {
         FrameCapture.frame(frame,tick);
     }
 
+    /** Mouse movement for the vanilla turn code this frame, or null when no turn is running. */
+    public static double[] mouseCounts() {
+        if(!turning) return null;
+        Minecraft mc=Minecraft.getInstance();
+        if(mc.player==null || mc.gui.screen()!=null) {turning=false;return null;}
+        double t=Math.min(1,(System.nanoTime()-turnStart)/(double)turnNanos), k=turnLinear?t:t*t*(3-2*t);
+        double yaw=turnYaw*k-turnedYaw, pitch=turnPitch*k-turnedPitch;
+        turnedYaw+=yaw;turnedPitch+=pitch;
+        if(t>=1)turning=false;
+        // Inverse of MouseHandler.turnPlayer and Entity.turn, so the requested degrees survive sensitivity, spyglass and invert options.
+        double s=mc.options.sensitivity().get()*0.6F+0.2F, degreesPerCount=s*s*s*0.15F;
+        if(!(mc.options.getCameraType().isFirstPerson()&&mc.player.isScoping()))degreesPerCount*=8;
+        return new double[]{yaw/degreesPerCount*(mc.options.invertMouseX().get()?-1:1),pitch/degreesPerCount*(mc.options.invertMouseY().get()?-1:1)};
+    }
+
     private static boolean expired(Job job) {
         if(job.result.isDone()) return true;
         if(System.nanoTime()>job.deadline) {job.result.completeExceptionally(new TimeoutException("Queued action expired without execution")); return true;}
@@ -136,8 +155,8 @@ public class Bridge implements ClientModInitializer {
         if(op.equals("capture_start"))return FrameCapture.start(r,null);
         if(op.equals("capture_status"))return FrameCapture.status(string(r,"id"));
         if(op.equals("capture_stop"))return FrameCapture.stop(string(r,"id"));
-        if(op.equals("stop")) {release(mc);return obj("ok",true,"tick",tick);}
-        if(op.equals("quit")) {release(mc);mc.stop();return obj("ok",true);}
+        if(op.equals("stop")) {turning=false;release(mc);return obj("ok",true,"tick",tick);}
+        if(op.equals("quit")) {turning=false;release(mc);mc.stop();return obj("ok",true);}
         if(op.equals("ui_click")) {
             Screen screen=mc.gui.screen();
             if(screen==null || !screen.getClass().getName().equals(string(r,"screen"))) throw new IllegalStateException("Screen changed; inspect status first");
@@ -158,7 +177,21 @@ public class Bridge implements ClientModInitializer {
                 if(cmd.isBlank()||cmd.length()>2048||cmd.contains("\n")||cmd.contains("\r"))throw new IllegalArgumentException("Invalid command");
                 p.connection.sendCommand(cmd);
             }
-            case "look" -> {p.setYRot((float)number(r,"yaw",-36000,36000));p.setXRot((float)number(r,"pitch",-90,90));}
+            case "look" -> {turning=false;p.setYRot((float)number(r,"yaw",-36000,36000));p.setXRot((float)number(r,"pitch",-90,90));}
+            case "turn" -> {
+                if(mc.gui.screen()!=null)throw new IllegalStateException("Close the current screen before turning");
+                boolean relative=r.has("relative")&&r.get("relative").getAsBoolean();
+                double yaw=number(r,"yaw",-36000,36000), pitch=number(r,"pitch",relative?-180:-90,relative?180:90);
+                int duration=integer(r,"durationMs",1,10000);
+                String easing=r.has("easing")?string(r,"easing"):"smooth";
+                if(!Set.of("smooth","linear").contains(easing))throw new IllegalArgumentException("Unknown easing: "+easing);
+                // An absolute target turns the shorter way round; pitch stops at the vanilla limits.
+                turnYaw=relative?yaw:Mth.wrapDegrees(yaw-p.getYRot());
+                turnPitch=Mth.clamp(relative?p.getXRot()+pitch:pitch,-90,90)-p.getXRot();
+                turnedYaw=turnedPitch=0;turnLinear=easing.equals("linear");
+                turnNanos=TimeUnit.MILLISECONDS.toNanos(duration);turnStart=System.nanoTime();turning=true;
+                return obj("ok",true,"tick",tick,"deltaYaw",turnYaw,"deltaPitch",turnPitch);
+            }
             case "camera" -> {mc.options.setCameraType(CameraType.valueOf(string(r,"mode")));}
             case "hotbar" -> p.getInventory().setSelectedSlot(integer(r,"slot",0,8));
             case "input" -> {
@@ -198,7 +231,7 @@ public class Bridge implements ClientModInitializer {
 
     private static JsonObject status(Minecraft mc) {
         long flags=SDLVideo.SDL_GetWindowFlags(mc.getWindow().handle());
-        JsonObject s=obj("ok",true,"version","26.3","tick",tick,"frame",frame,"fps",mc.getFps(),"dedicated",true,"focused",(flags&SDLVideo.SDL_WINDOW_INPUT_FOCUS)!=0,"hidden",(flags&SDLVideo.SDL_WINDOW_HIDDEN)!=0,"mouseGrabbed",mc.mouseHandler.isMouseGrabbed(),"connected",mc.player!=null,"inputRemainingMs",Math.max(0,(inputUntil-System.nanoTime())/1000000),"timestamp",Instant.now().toString());
+        JsonObject s=obj("ok",true,"version","26.3","tick",tick,"frame",frame,"fps",mc.getFps(),"dedicated",true,"focused",(flags&SDLVideo.SDL_WINDOW_INPUT_FOCUS)!=0,"hidden",(flags&SDLVideo.SDL_WINDOW_HIDDEN)!=0,"mouseGrabbed",mc.mouseHandler.isMouseGrabbed(),"connected",mc.player!=null,"inputRemainingMs",Math.max(0,(inputUntil-System.nanoTime())/1000000),"turnRemainingMs",turning?Math.max(1,(turnStart+turnNanos-System.nanoTime())/1000000):0,"timestamp",Instant.now().toString());
         Screen screen=mc.gui.screen();
         s.addProperty("screen",screen==null?null:screen.getClass().getName());
         JsonArray widgets=new JsonArray();
