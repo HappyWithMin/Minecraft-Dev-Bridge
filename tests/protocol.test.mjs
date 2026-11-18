@@ -63,6 +63,21 @@ test('smooth turns are bounded and usable inside scenarios',async()=>{
   }
 });
 
+test('chat messages are length-bounded and usable inside scenarios',async()=>{
+  const s=definitions.find(t=>t.name==='mc_chat').inputSchema;
+  validate({message:'hello 你好'},s);validate({message:'x'.repeat(256)},s);
+  for(const v of [{},{message:''},{message:'x'.repeat(257)},{message:42},{message:'hi',extra:1}])assert.throws(()=>validate(v,s));
+  const temp=fs.mkdtempSync(path.join(os.tmpdir(),'mcbridge-chat-test-'));
+  try {
+    const report=await execute('mc_run_scenario',{name:'chat-preflight',steps:[{tool:'mc_chat',args:{message:'hello'}}]},{runtimeDir:temp});
+    assert.equal(report.passed,false);assert.match(report.error,/ENOENT/);
+    await assert.rejects(execute('mc_run_scenario',{name:'invalid',steps:[{tool:'mc_chat',args:{message:''}}]},{runtimeDir:temp}),/invalid string length/);
+  }finally {
+    assert.equal(path.dirname(temp),os.tmpdir());assert.ok(path.basename(temp).startsWith('mcbridge-chat-test-'));
+    fs.rmSync(temp,{recursive:true,force:true});
+  }
+});
+
 test('assertions reject missing fields and distinguish numeric and boolean values',()=>{
   assert.equal(checkAssertion({player:{x:4}}, {path:'player.x',min:3,max:5}).passed,true);
   assert.throws(()=>checkAssertion({connected:false},{path:'connected',equals:true}),/failed/);

@@ -7,13 +7,13 @@
 ## 已实现
 
 - 本地 RCON 服务端命令和服务端日志。
-- 独立客户端启动/退出、玩家命令、走跑跳潜行、视角、第一/第三人称、快捷栏、攻击/使用物品、背包与插件菜单操作。
+- 独立客户端启动/退出、玩家命令、玩家聊天消息、走跑跳潜行、视角、第一/第三人称、快捷栏、攻击/使用物品、背包与插件菜单操作。
 - 平滑转动视角：逐帧把鼠标位移送进原版的灵敏度换算和转向代码，效果等同真实玩家移动鼠标。
 - 默认 1080p、最高 4K 的实际渲染截图，MCP 直接返回图像；完成后自动恢复原分辨率。
 - 后台连续帧采集，保存无损 PNG、逐帧时间/游戏状态、漏采统计，以及可播放和逐帧检查的离线页面。
 - 场景串行执行、状态断言、失败清理和 JSON 验证记录。
 - 服务端插件 JAR 暂存到 `plugins/update`，SHA-256 与旧暂存文件备份。
-- 22 个 MCP 工具、一个 `minecraft-validation` 技能，无 npm 第三方依赖。
+- 23 个 MCP 工具、一个 `minecraft-validation` 技能，无 npm 第三方依赖。
 
 ## 使用
 
@@ -21,7 +21,7 @@
 
 > 用 minecraft-dev-bridge 在后台验证 PlayerModel：进入模型菜单，测试走跑跳、第三人称和持物，截图并报告。
 
-MCP 名称可能带插件前缀。最常用的是 `mc_launch`、`mc_status`、`mc_server_command`、`mc_input`、`mc_turn`、`mc_screenshot`、`mc_run_scenario`、`mc_shutdown`。截图也能通过 `view_image`（Codex）或 Read（Claude Code）打开返回的本地路径。Claude Code 中工具全名形如 `mcp__plugin_minecraft-dev-bridge_minecraft_dev_bridge__mc_status`。
+MCP 名称可能带插件前缀。最常用的是 `mc_launch`、`mc_status`、`mc_server_command`、`mc_input`、`mc_chat`、`mc_turn`、`mc_screenshot`、`mc_run_scenario`、`mc_shutdown`。截图也能通过 `view_image`（Codex）或 Read（Claude Code）打开返回的本地路径。Claude Code 中工具全名形如 `mcp__plugin_minecraft-dev-bridge_minecraft_dev_bridge__mc_status`。
 
 在仓库或插件根目录的终端中也可直接运行同一实现的 CLI：
 
@@ -53,6 +53,16 @@ node scripts/cli.mjs mc_shutdown
 ```
 
 传给 `mc_run_scenario` 或保存为 JSON 后通过 CLI 调用。报告位于 runtime/reports，截图位于 runtime/client/screenshots。场景中 `waitMs` 累计至多 45 秒，长测试分段进行。
+
+## 发送聊天消息
+
+`mc_chat` 以测试玩家身份发送一条普通聊天消息，效果等同在聊天框输入后按回车。服务端插件收到的是正常的玩家聊天事件（如 Paper 的 `AsyncChatEvent`），可用于测试聊天监听、聊天格式、靠聊天输入的交互菜单等。
+
+| 参数 | 示例 | 说明 |
+| --- | --- | --- |
+| `message` | `"hello"` | 去掉首尾空白后 1–256 个字符 |
+
+以 `/` 开头的内容会被拒绝，命令请用 `mc_client_command`（它走命令事件，不触发聊天事件）。`§` 和控制字符同样会被拒绝，因为服务端会因非法聊天字符踢出玩家。发送成功只表示消息已发出，服务端是否收到、插件如何处理，请用 `mc_logs`（`target: "server"`）或截图确认。`mc_chat` 也可放进 `mc_run_scenario`。
 
 ## 平滑转动视角
 

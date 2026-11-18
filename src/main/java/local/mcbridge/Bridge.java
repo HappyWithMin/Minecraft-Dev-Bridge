@@ -14,6 +14,7 @@ import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.player.ClientInput;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Mth;
+import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.phys.Vec2;
@@ -176,6 +177,15 @@ public class Bridge implements ClientModInitializer {
                 if(cmd.startsWith("/"))cmd=cmd.substring(1);
                 if(cmd.isBlank()||cmd.length()>2048||cmd.contains("\n")||cmd.contains("\r"))throw new IllegalArgumentException("Invalid command");
                 p.connection.sendCommand(cmd);
+            }
+            case "chat" -> {
+                String message=string(r,"message").strip();
+                if(message.isEmpty()||message.length()>256)throw new IllegalArgumentException("Chat message must be 1-256 characters");
+                if(message.startsWith("/"))throw new IllegalArgumentException("Chat message starts with '/'; use mc_client_command for commands");
+                // The server kicks players for disallowed characters (section sign, control characters), so refuse them here.
+                if(!message.codePoints().allMatch(StringUtil::isAllowedChatCharacter))throw new IllegalArgumentException("Chat message contains disallowed characters");
+                p.connection.sendChat(message);
+                return obj("ok",true,"tick",tick,"message",message);
             }
             case "look" -> {turning=false;p.setYRot((float)number(r,"yaw",-36000,36000));p.setXRot((float)number(r,"pitch",-90,90));}
             case "turn" -> {
